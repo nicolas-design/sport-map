@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import dynamic from 'next/dynamic';
-import React from 'react';
+import React, { useMemo } from 'react';
 import Header from '../components/header';
 
 const buttonStyle = css`

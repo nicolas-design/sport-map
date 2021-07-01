@@ -1,3 +1,4 @@
+import '../styles/globals.css';
 import { css, Global } from '@emotion/react';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
 import Head from 'next/head';
