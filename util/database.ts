@@ -2,7 +2,13 @@ import camelcaseKeys from 'camelcase-keys';
 import dotenvSafe from 'dotenv-safe';
 import postgres from 'postgres';
 import setPostgresDefaultsOnHeroku from '../setPostgresDefaultsOnHeroku';
-import { ApplicationError, Session, User, UserWithPasswordHash } from './types';
+import {
+  ApplicationError,
+  Info,
+  Session,
+  User,
+  UserWithPasswordHash,
+} from './types';
 
 setPostgresDefaultsOnHeroku();
 
@@ -326,4 +332,32 @@ export async function deleteSessionByToken(token: string) {
     RETURNING *
   `;
   return sessions.map((session) => camelcaseKeys(session))[0];
+}
+
+export async function insertPlace(
+  addressInt: string,
+  city: string,
+  sportType: string,
+  spotDescription: string,
+  coordinates: Array<number>,
+) {
+  const mapinfo = await sql<[Info]>`
+    INSERT INTO mapinfo
+      (address_int, city, sport_type, spot_description, coordinates)
+    VALUES
+      (${addressInt}, ${city}, ${sportType}, ${spotDescription}, ${coordinates})
+    RETURNING
+      id,
+      address_int,
+      city,
+      sport_type
+  `;
+  return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+export async function getInfo() {
+  const res = await sql`SELECT * FROM mapinfo`;
+  return res.map((prod) => {
+    return camelcaseKeys(prod);
+  });
 }

@@ -5,6 +5,14 @@ export type User = {
   username: string;
   email: string;
 };
+export type Info = {
+  id: number;
+  addressInt: string;
+  city: string;
+  sportType: string;
+  spotDescription: string;
+  coordinates: Array<number>;
+};
 
 export type UserWithPasswordHash = User & {
   passwordHash: string;

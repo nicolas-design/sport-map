@@ -5,6 +5,7 @@ import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { geosearch } from 'esri-leaflet-geocoder';
+import cookies from 'js-cookie';
 import L, { icon } from 'leaflet';
 // import
 import {
@@ -23,11 +24,8 @@ import {
   useMap,
   useMapEvents,
 } from 'react-leaflet';
+import { getLocationValue } from '../util/cookies';
 
-const ICON = icon({
-  iconUrl: '/surferIcon-rbg.png',
-  iconSize: [40, 40],
-});
 // search
 const searchStyle = css`
   width: 500px;
@@ -45,11 +43,7 @@ const SearchField = ({ apiKey }) => {
   // @ts-ignore
   const searchControl = new GeoSearchControl({
     provider: new OpenStreetMapProvider(),
-    marker: {
-      icon: ICON,
-
-      draggable: true,
-    },
+    showMarker: false,
   });
 
   const map = useMap();
@@ -61,36 +55,68 @@ const SearchField = ({ apiKey }) => {
   return null;
 };
 
-const Markers = () => {
-  const [selectedPosition, setSelectedPosition] = useState([]);
-
+const Markers = (props) => {
+  const [selectedPosition, setSelectedPosition] = useState(getLocationValue());
+  cookies.set('location', selectedPosition);
+  console.log(selectedPosition);
   const mapFunc = useMapEvents({
+    click(e) {
+      setSelectedPosition([e.latlng.lat, e.latlng.lng]);
+    },
+  });
+
+  if (selectedPosition?.length > 0) {
+    return (
+      <Marker position={selectedPosition} icon={props.examp}>
+        <Popup>ya</Popup>
+      </Marker>
+    );
+  } else {
+    return null;
+  }
+};
+
+const MarkersTotal = (props) => {
+  const infos = props.infos;
+  // const [selectedPosition, setSelectedPosition] = useState([]);
+
+  /* const mapFunc = useMapEvents({
     click(e) {
       setSelectedPosition((current) => [
         ...current,
         { lat: e.latlng.lat, lng: e.latlng.lng, time: new Date() },
       ]);
     },
-  });
+  });*/
 
-  return selectedPosition.map((marker) => {
+  return infos.map((info) => {
+    const ICON = icon({
+      iconUrl: `/${info.sportType}.png`,
+      iconSize: [40, 40],
+    });
     return (
-      <Marker
-        key={marker.time.toISOString()}
-        position={[marker.lat, marker.lng]}
-        icon={ICON}
-      >
-        <Popup>ya</Popup>
+      <Marker key={info.id} position={JSON.parse(info.coordinates)} icon={ICON}>
+        <Popup>
+          <h2>{info.city}</h2>
+          <h3>{info.addressInt}</h3>
+          {info.spotDescription}
+        </Popup>
       </Marker>
     );
   });
 };
 
-const Map = () => {
+const Map = (props) => {
+  console.log(props.infos);
   const [markers, setMarkers] = useState([]);
   const [initialPosition, setInitialPosition] = useState([
     48.210033, 16.363449,
   ]);
+
+  const ICON = icon({
+    iconUrl: props.iconUrl,
+    iconSize: [40, 40],
+  });
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -135,14 +161,22 @@ const Map = () => {
 
       <SearchField />
 
-      <Marker position={[48.210033, 16.363449]} icon={ICON}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
-      <Markers />
+      <Markers examp={ICON} />
+      <MarkersTotal infos={props.infos} />
     </MapContainer>
   );
 };
 
 export default Map;
+
+/* export async function getServerSideProps() {
+  const { getInfo } = await import('../util/database');
+  const data = await getInfo();
+  console.log(data);
+  return {
+    props: {
+      data: data,
+    },
+  };
+}
+*/

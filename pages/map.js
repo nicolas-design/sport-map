@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
+import cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
-import React, { useMemo } from 'react';
+import Link from 'next/link';
+import React, { useMemo, useState } from 'react';
 import Header from '../components/header';
+import { getLocationValue } from '../util/cookies';
 
 const buttonStyle = css`
   position: absolute;
@@ -18,7 +21,18 @@ const buttonStyle = css`
   font-size: 40px;
 `;
 
-function MapPage() {
+const dropdownStyle = css`
+  position: absolute;
+  top: 70px;
+  right: 1.5em;
+  z-index: 1000;
+  height: 32px;
+`;
+
+function MapPage(props) {
+  const infos = props.data;
+  const [getLocation, setGetLocation] = useState(getLocationValue());
+  const [iconUrl, setIconUrl] = useState('/surferIcon-rbg.png');
   const Map = React.useMemo(
     () =>
       dynamic(
@@ -35,10 +49,43 @@ function MapPage() {
   return (
     <div>
       <Header />
-      <Map />
-      <button css={buttonStyle}>+</button>
+      <select css={dropdownStyle} onChange={(e) => setIconUrl(e.target.value)}>
+        <option value="/surferIcon-rbg.png">Surfing</option>
+        <option value="/kitesurfIcon.png">Kitesurfing</option>
+        <option value="/wakeboardIcon.png">Wakeboarding</option>
+        <option value="/skateIcon-removebg.png">Skateboarding</option>
+      </select>
+      <Map iconUrl={iconUrl} infos={infos} />
+
+      <button
+        css={buttonStyle}
+        onClick={() => setGetLocation(getLocationValue())}
+      >
+        {getLocation?.length === 2 ? (
+          <Link
+            href={`/management/addspot/${iconUrl
+              .replace('/', '')
+              .replace('.png', '')}`}
+          >
+            <a>+</a>
+          </Link>
+        ) : (
+          <> + </>
+        )}
+      </button>
     </div>
   );
 }
 
 export default MapPage;
+
+export async function getServerSideProps() {
+  const { getInfo } = await import('../util/database');
+  const data = await getInfo();
+  console.log(data);
+  return {
+    props: {
+      data: data,
+    },
+  };
+}

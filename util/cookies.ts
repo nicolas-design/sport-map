@@ -32,6 +32,11 @@ export function createSerializedSessionTokenCookie(token: string) {
   });
 }
 
+export function getLocationValue() {
+  const cookieVal = cookies.getJSON('location');
+  return Array.isArray(cookieVal) ? cookieVal : [];
+}
+
 export function createSerializedRegisterSessionTokenCookie(token: string) {
   // Detect whether we're in a production environment
   // eg. Heroku
