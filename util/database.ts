@@ -362,3 +362,69 @@ export async function getInfo() {
     return camelcaseKeys(prod);
   });
 }
+
+export async function updateInfoById(
+  infoId: number | undefined,
+  addressInt: string,
+  city: string,
+  sportType: string,
+  spotDescription: string,
+) {
+  if (!infoId) return undefined;
+
+  const mapinfo = await sql<[Info]>`
+    UPDATE
+      mapinfo
+    SET
+      address_int = ${addressInt},
+      city = ${city},
+      sport_type = ${sportType},
+      spot_description = ${spotDescription}
+    WHERE
+      id = ${infoId}
+    RETURNING
+      id,
+      address_int,
+      city,
+      sport_type,
+      spot_description
+  `;
+  return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+export async function deleteInfoById(id?: number) {
+  if (!id) return undefined;
+
+  const mapinfo = await sql`
+    DELETE FROM
+      mapinfo
+    WHERE
+      id = ${id}
+    RETURNING
+      id,
+      address_int,
+      spot_description,
+      sport_type
+  `;
+  return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+export async function getInfoById(id?: number) {
+  // Return undefined if userId is not parseable
+  // to an integer
+  if (!id) return undefined;
+
+  const mapinfo = await sql<[Info]>`
+    SELECT
+      id,
+      address_int,
+      city,
+      sport_type,
+      spot_description
+    FROM
+      mapinfo
+    WHERE
+      id = ${id}
+  `;
+  return mapinfo.map((info) => camelcaseKeys(info))[0];
+}

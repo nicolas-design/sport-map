@@ -14,6 +14,7 @@ import {
   OpenStreetMapProvider,
   SearchControl,
 } from 'leaflet-geosearch';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import {
   LeafletMap,
@@ -29,6 +30,45 @@ import { getLocationValue } from '../util/cookies';
 // search
 const searchStyle = css`
   width: 500px;
+`;
+
+const wrapperMarker = css`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const dropdownStyle = css`
+  width: 176px;
+  height: 24px;
+  margin: 10px;
+  border: 2px solid black;
+`;
+
+const textareaStyle = css`
+  margin: 10px;
+  border: 1px solid black;
+  width: 176px;
+  height: 100px;
+`;
+
+const inputStyle = css`
+  margin: 10px;
+  border: 1px solid black;
+  width: 176px;
+  height: 24px;
+`;
+
+const buttonStyle = css`
+  border-radius: 8px;
+  margin: 10px;
+  width: 70px;
+  height: 24px;
+  background-color: #86c232;
+  color: white;
+  border: none;
+  font-weight: 200;
 `;
 
 const provider = new OpenStreetMapProvider();
@@ -79,6 +119,8 @@ const Markers = (props) => {
 const MarkersTotal = (props) => {
   const infos = props.infos;
   const username = props.username;
+  const [editing, setEditing] = useState(null);
+  const [draftSpot, setDraftSpot] = useState(null);
   // const [selectedPosition, setSelectedPosition] = useState([]);
 
   /* const mapFunc = useMapEvents({
@@ -95,14 +137,171 @@ const MarkersTotal = (props) => {
       iconUrl: `/${info.sportType}.png`,
       iconSize: [40, 40],
     });
+
     return (
       <Marker key={info.id} position={JSON.parse(info.coordinates)} icon={ICON}>
         <Popup>
-          <h2>{info.city}</h2>
-          <h3>{info.addressInt}</h3>
-          {info.spotDescription}
+          {editing === info.id ? (
+            <div css={wrapperMarker}>
+              <div>
+                <label>
+                  <input
+                    css={inputStyle}
+                    value={draftSpot.addressInt}
+                    onChange={(event) => {
+                      const editedSpot = {
+                        ...draftSpot,
+                        addressInt: event.currentTarget.value,
+                      };
+                      setDraftSpot(editedSpot);
+                    }}
+                  />
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input
+                    css={inputStyle}
+                    value={draftSpot.city}
+                    onChange={(event) => {
+                      const editedSpot = {
+                        ...draftSpot,
+                        city: event.currentTarget.value,
+                      };
+                      setDraftSpot(editedSpot);
+                    }}
+                  />
+                </label>
+              </div>
+              <div>
+                <select
+                  css={dropdownStyle}
+                  onChange={(event) => {
+                    const editedSpot = {
+                      ...draftSpot,
+                      sportType: event.currentTarget.value,
+                    };
+                    setDraftSpot(editedSpot);
+                  }}
+                >
+                  <option
+                    value="surferIcon-rbg"
+                    selected={
+                      draftSpot.sportType === 'surferIcon' ? 'selected' : ''
+                    }
+                  >
+                    Surfing
+                  </option>
+                  <option
+                    value="kitesurfIcon"
+                    selected={
+                      draftSpot.sportType === 'kitesurfIcon' ? 'selected' : ''
+                    }
+                  >
+                    Kitesurfing
+                  </option>
+                  <option
+                    value="wakeboardIcon"
+                    selected={
+                      draftSpot.sportType === 'wakeboardIcon' ? 'selected' : ''
+                    }
+                  >
+                    Wakeboarding
+                  </option>
+                  <option
+                    value="skateIcon-removebg"
+                    selected={
+                      draftSpot.sportType === 'skateIcon-removebg'
+                        ? 'selected'
+                        : ''
+                    }
+                  >
+                    Skateboarding
+                  </option>
+                </select>
+              </div>
+              <div>
+                <label>
+                  <textarea
+                    css={textareaStyle}
+                    value={draftSpot.spotDescription}
+                    onChange={(event) => {
+                      const editedSpot = {
+                        ...draftSpot,
+                        spotDescription: event.currentTarget.value,
+                      };
+                      setDraftSpot(editedSpot);
+                    }}
+                  />
+                </label>
+              </div>
+              <div>
+                <button css={buttonStyle} onClick={() => setEditing(null)}>
+                  Cancel
+                </button>
+                <button
+                  css={buttonStyle}
+                  onClick={async () => {
+                    const response = await fetch(`/api/spot/${info.id}`, {
+                      method: 'PUT',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        addressInt: draftSpot.addressInt,
+                        city: draftSpot.city,
+                        sportType: draftSpot.sportType,
+                        spotDescription: draftSpot.spotDescription,
+                      }),
+                    });
+                    const { spot: updatedSpot } = await response.json();
+                    setEditing(null);
+                    window.location.reload(false);
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <h2>{info.city}</h2>
+              <h3>{info.addressInt}</h3>
+              {info.spotDescription}
 
-          {username == info.usernameOwner ? <div>Edit</div> : <div />}
+              {username == info.usernameOwner ? (
+                <div>
+                  <button
+                    css={buttonStyle}
+                    onClick={() => {
+                      setEditing(info.id);
+                      setDraftSpot(info);
+                    }}
+                  >
+                    edit
+                  </button>
+                  <button
+                    css={buttonStyle}
+                    onClick={async () => {
+                      const response = await fetch(`/api/spot/${info.id}`, {
+                        method: 'DELETE',
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                      });
+                      const { spot: updatedSpot } = await response.json();
+
+                      window.location.reload(false);
+                    }}
+                  >
+                    delete
+                  </button>
+                </div>
+              ) : (
+                <div />
+              )}
+            </div>
+          )}
         </Popup>
       </Marker>
     );

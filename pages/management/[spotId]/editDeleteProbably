@@ -1,0 +1,137 @@
+/* import Head from 'next/head';
+import { useState } from 'react';
+import Layout from '../../../components/Layout';
+
+// PROBABLY DO NOT COPY
+// You probably want to integrate this directly into
+// your single item page instead
+export default function UpdateDontCopy(props) {
+  const [spot, setSpot] = useState(props.spot);
+  const [draftSpot, setDraftSpot] = useState(spot);
+
+  // Handle error if user does not exist
+  if (!props.spot) {
+    return (
+      <Layout>
+        <Head>
+          <title>spot not found!</title>
+        </Head>
+        Spot not found
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout>
+      <Head>
+        <title>Update page</title>
+      </Head>
+
+      <h1>Update Page</h1>
+
+      <div>id: {spot.id}</div>
+      <div>address: {spot.addressInt}</div>
+      <div>city: {spot.city}</div>
+      <div>sport: {spot.sportType}</div>
+      <div>description: {spot.spotDescription}</div>
+
+      <div>
+        <input
+          value={draftSpot.addressInt}
+          onChange={(event) => {
+            const editedSpot = {
+              ...draftSpot,
+              addressInt: event.currentTarget.value,
+            };
+            setDraftSpot(editedSpot);
+          }}
+        />
+      </div>
+      <div>
+        <input
+          value={draftSpot.city}
+          onChange={(event) => {
+            const editedSpot = {
+              ...draftSpot,
+              city: event.currentTarget.value,
+            };
+            setDraftSpot(editedSpot);
+          }}
+        />
+      </div>
+      <div>
+        <input
+          value={draftSpot.sportType}
+          onChange={(event) => {
+            const editedSpot = {
+              ...draftSpot,
+              sportType: event.currentTarget.value,
+            };
+            setDraftSpot(editedSpot);
+          }}
+        />
+      </div>
+
+      <div>
+        <input
+          value={draftSpot.spotDescription}
+          onChange={(event) => {
+            const editedSpot = {
+              ...draftSpot,
+              spotDescription: event.currentTarget.value,
+            };
+            setDraftSpot(editedSpot);
+          }}
+        />
+      </div>
+
+      <button
+        onClick={async () => {
+          const response = await fetch(`/api/spot/${spot.id}`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              addressInt: draftSpot.addressInt,
+              city: draftSpot.city,
+              sportType: draftSpot.sportType,
+              spotDescription: draftSpot.spotDescription,
+            }),
+          });
+          const { spot: updatedSpot } = await response.json();
+          setSpot(updatedSpot);
+        }}
+      >
+        Save
+      </button>
+
+      <button
+        onClick={() => {
+          if (!window.confirm(`Really discard?`)) {
+            return;
+          }
+
+          setDraftSpot(spot);
+        }}
+      >
+        Discard
+      </button>
+    </Layout>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const response = await fetch(
+    `${process.env.API_BASE_URL}/spot/${context.query.spotId}`,
+  );
+  const { spot } = await response.json();
+  console.log(context.query.spotId);
+
+  return {
+    props: {
+      spot: spot,
+    },
+  };
+}
+*/
