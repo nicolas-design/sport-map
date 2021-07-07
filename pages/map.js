@@ -48,31 +48,35 @@ function MapPage(props) {
   );
   return (
     <div>
-      <Header />
+      <Header username={props.username} />
       <select css={dropdownStyle} onChange={(e) => setIconUrl(e.target.value)}>
         <option value="/surferIcon-rbg.png">Surfing</option>
         <option value="/kitesurfIcon.png">Kitesurfing</option>
         <option value="/wakeboardIcon.png">Wakeboarding</option>
         <option value="/skateIcon-removebg.png">Skateboarding</option>
       </select>
-      <Map iconUrl={iconUrl} infos={infos} />
+      <Map iconUrl={iconUrl} infos={infos} username={props.username} />
 
-      <button
-        css={buttonStyle}
-        onClick={() => setGetLocation(getLocationValue())}
-      >
-        {getLocation?.length === 2 ? (
-          <Link
-            href={`/management/addspot/${iconUrl
-              .replace('/', '')
-              .replace('.png', '')}`}
-          >
-            <a>+</a>
-          </Link>
-        ) : (
-          <> + </>
-        )}
-      </button>
+      {props.username ? (
+        <button
+          css={buttonStyle}
+          onClick={() => setGetLocation(getLocationValue())}
+        >
+          {getLocation?.length === 2 ? (
+            <Link
+              href={`/management/addspot/${iconUrl
+                .replace('/', '')
+                .replace('.png', '')}`}
+            >
+              <a>+</a>
+            </Link>
+          ) : (
+            <> + </>
+          )}
+        </button>
+      ) : (
+        <div />
+      )}
     </div>
   );
 }

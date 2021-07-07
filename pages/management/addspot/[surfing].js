@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Header from '../../../components/header';
@@ -85,7 +86,32 @@ const buttonStyle = css`
   justify-self: end;
 `;
 
-export default function AddSpot() {
+const guestBg = css`
+  min-height: 100vh;
+  width: 100%;
+  z-index: -1;
+  margin: 0px;
+  background-color: #222629;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 60px;
+  padding-bottom: 60px;
+  padding-left: 40px;
+  padding-right: 40px;
+`;
+
+const guestStyle = css`
+  color: white;
+`;
+
+const guestLogin = css`
+  color: #86c232;
+  text-decoration: underline;
+`;
+
+export default function AddSpot(props) {
   const router = useRouter();
   const sportType = router.query.surfing;
   const [address, setAddress] = useState('');
@@ -96,106 +122,123 @@ export default function AddSpot() {
   return (
     <Layout>
       <Head>
-        <title>Register</title>
+        <title>AddSpot</title>
       </Head>
+      {props.username ? (
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            const response = await fetch(`/api/spot`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                addressInt: address,
+                city: city,
+                sportType: sportTypeFin,
+                spotDescription: spotDescription,
+                coordinates: JSON.stringify(getLocationValue()),
+                usernameOwner: props.username,
+              }),
+            });
+            const { spotInfo: createdSpot } = await response.json();
 
-      <form
-        onSubmit={async (event) => {
-          event.preventDefault();
-          const response = await fetch(`/api/spot`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              addressInt: address,
-              city: city,
-              sportType: sportTypeFin,
-              spotDescription: spotDescription,
-              coordinates: JSON.stringify(getLocationValue()),
-            }),
-          });
-          const { spotInfo: createdSpot } = await response.json();
-
-          // Navigate to the map page when
-          // they have been successfully created
-          router.push(`/map`);
-        }}
-      >
-        <div css={backgroundPage}>
-          <Header />
-          <div css={inputA}>
-            <label>
-              <input
-                value={city}
-                placeholder="City"
-                css={inputStyle}
+            // Navigate to the map page when
+            // they have been successfully created
+            router.push(`/map`);
+          }}
+        >
+          <div css={backgroundPage}>
+            <Header />
+            <div css={inputA}>
+              <label>
+                <input
+                  value={city}
+                  placeholder="City"
+                  css={inputStyle}
+                  onChange={(e) => {
+                    setCity(e.currentTarget.value);
+                  }}
+                />
+              </label>
+            </div>
+            <div css={inputB}>
+              <label>
+                <input
+                  value={address}
+                  placeholder="Address"
+                  css={inputStyle}
+                  onChange={(e) => {
+                    setAddress(e.currentTarget.value);
+                  }}
+                />
+              </label>
+            </div>
+            <div css={inputC}>
+              <select
+                css={dropdownStyle}
                 onChange={(e) => {
-                  setCity(e.currentTarget.value);
+                  setSportTypeFin(e.currentTarget.value);
                 }}
-              />
-            </label>
-          </div>
-          <div css={inputB}>
-            <label>
-              <input
-                value={address}
-                placeholder="Address"
-                css={inputStyle}
-                onChange={(e) => {
-                  setAddress(e.currentTarget.value);
-                }}
-              />
-            </label>
-          </div>
-          <div css={inputC}>
-            <select
-              css={dropdownStyle}
-              onChange={(e) => {
-                setSportTypeFin(e.currentTarget.value);
-              }}
-            >
-              <option
-                value="surferIcon-rbg"
-                selected={sportType === 'surferIcon' ? 'selected' : ''}
               >
-                Surfing
-              </option>
-              <option
-                value="kitesurfIcon"
-                selected={sportType === 'kitesurfIcon' ? 'selected' : ''}
-              >
-                Kitesurfing
-              </option>
-              <option
-                value="wakeboardIcon"
-                selected={sportType === 'wakeboardIcon' ? 'selected' : ''}
-              >
-                Wakeboarding
-              </option>
-              <option
-                value="skateIcon-removebg"
-                selected={sportType === 'skateIcon-removebg' ? 'selected' : ''}
-              >
-                Skateboarding
-              </option>
-            </select>
+                <option
+                  value="surferIcon-rbg"
+                  selected={sportType === 'surferIcon' ? 'selected' : ''}
+                >
+                  Surfing
+                </option>
+                <option
+                  value="kitesurfIcon"
+                  selected={sportType === 'kitesurfIcon' ? 'selected' : ''}
+                >
+                  Kitesurfing
+                </option>
+                <option
+                  value="wakeboardIcon"
+                  selected={sportType === 'wakeboardIcon' ? 'selected' : ''}
+                >
+                  Wakeboarding
+                </option>
+                <option
+                  value="skateIcon-removebg"
+                  selected={
+                    sportType === 'skateIcon-removebg' ? 'selected' : ''
+                  }
+                >
+                  Skateboarding
+                </option>
+              </select>
+            </div>
+            <div css={inputD}>
+              <label>
+                <textarea
+                  value={spotDescription}
+                  placeholder="Add description"
+                  css={inputStyleD}
+                  onChange={(e) => {
+                    setSpotDescription(e.currentTarget.value);
+                  }}
+                />
+              </label>
+            </div>
+            <button css={buttonStyle}>Add</button>
           </div>
-          <div css={inputD}>
-            <label>
-              <textarea
-                value={spotDescription}
-                placeholder="Add description"
-                css={inputStyleD}
-                onChange={(e) => {
-                  setSpotDescription(e.currentTarget.value);
-                }}
-              />
-            </label>
+        </form>
+      ) : (
+        <div css={guestBg}>
+          <div css={guestStyle}>
+            <Link href="/login">
+              <a css={guestLogin}>Login</a>
+            </Link>{' '}
+            or{' '}
+            <Link href="/register">
+              <a css={guestLogin}>Register</a>
+            </Link>{' '}
+            to add a spot
           </div>
-          <button css={buttonStyle}>Add</button>
         </div>
-      </form>
+      )}
     </Layout>
   );
 }

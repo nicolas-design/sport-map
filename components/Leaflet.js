@@ -78,6 +78,7 @@ const Markers = (props) => {
 
 const MarkersTotal = (props) => {
   const infos = props.infos;
+  const username = props.username;
   // const [selectedPosition, setSelectedPosition] = useState([]);
 
   /* const mapFunc = useMapEvents({
@@ -100,6 +101,8 @@ const MarkersTotal = (props) => {
           <h2>{info.city}</h2>
           <h3>{info.addressInt}</h3>
           {info.spotDescription}
+
+          {username == info.usernameOwner ? <div>Edit</div> : <div />}
         </Popup>
       </Marker>
     );
@@ -162,7 +165,7 @@ const Map = (props) => {
       <SearchField />
 
       <Markers examp={ICON} />
-      <MarkersTotal infos={props.infos} />
+      <MarkersTotal infos={props.infos} username={props.username} />
     </MapContainer>
   );
 };

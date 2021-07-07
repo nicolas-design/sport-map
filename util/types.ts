@@ -11,7 +11,8 @@ export type Info = {
   city: string;
   sportType: string;
   spotDescription: string;
-  coordinates: Array<number>;
+  coordinates: string;
+  usernameOwner: string;
 };
 
 export type UserWithPasswordHash = User & {

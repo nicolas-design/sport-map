@@ -71,10 +71,10 @@ const imageContainer = css`
   top: 0;
 `;
 
-export default function Home() {
+export default function Home(props) {
   return (
     <div>
-      <Header />
+      <Header username={props.username} />
       <div css={backgroundPage}>
         <div css={marginStyle}>
           <div css={wrapper}>

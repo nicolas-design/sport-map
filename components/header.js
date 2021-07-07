@@ -64,15 +64,23 @@ const totalStyle = css`
   color: white;
 `;
 
-export default function Header() {
+export default function Header(props) {
   return (
     <header css={headerDiv}>
       <h3 css={aurumStyle}>
-        <Link href="./login">
-          <a css={aStyle}>
-            <div css={loginStyle}>Login</div>
-          </a>
-        </Link>
+        {props.username ? (
+          <Link href="/logout">
+            <a css={aStyle}>
+              <div css={loginStyle}>Logout</div>
+            </a>
+          </Link>
+        ) : (
+          <Link href="/login">
+            <a css={aStyle}>
+              <div css={loginStyle}>Login</div>
+            </a>
+          </Link>
+        )}
       </h3>
       <div css={imgStyle}>
         <Image src="/menu.svg" alt="menu" height={25} width={25}></Image>

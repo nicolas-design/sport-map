@@ -9,6 +9,7 @@ export default async function spotInfo(req, res) {
       req.body.sportType,
       req.body.spotDescription,
       req.body.coordinates,
+      req.body.usernameOwner,
     );
     return res.status(200).json({ spot: spot });
   }

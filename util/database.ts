@@ -339,13 +339,14 @@ export async function insertPlace(
   city: string,
   sportType: string,
   spotDescription: string,
-  coordinates: Array<number>,
+  coordinates: string,
+  usernameOwner: string,
 ) {
   const mapinfo = await sql<[Info]>`
     INSERT INTO mapinfo
-      (address_int, city, sport_type, spot_description, coordinates)
+      (address_int, city, sport_type, spot_description, coordinates, username_owner)
     VALUES
-      (${addressInt}, ${city}, ${sportType}, ${spotDescription}, ${coordinates})
+      (${addressInt}, ${city}, ${sportType}, ${spotDescription}, ${coordinates}, ${usernameOwner})
     RETURNING
       id,
       address_int,
