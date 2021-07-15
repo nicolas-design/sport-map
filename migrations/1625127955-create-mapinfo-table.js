@@ -7,7 +7,8 @@ exports.up = async function up(sql) {
 			sport_type varchar(40) NOT NULL,
 			spot_description varchar(600) NOT NULL,
 			coordinates varchar(60) NOT NULL,
-      username_owner varchar(40) NOT NULL
+      username_owner varchar(40) NOT NULL,
+      user_rating varchar
     )
   `;
 };

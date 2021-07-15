@@ -31,8 +31,9 @@ const dropdownStyle = css`
 
 function MapPage(props) {
   const infos = props.data;
+  const rating = props.rating;
   const [getLocation, setGetLocation] = useState(getLocationValue());
-  const [iconUrl, setIconUrl] = useState('/surferIcon-rbg.png');
+  const [iconUrl, setIconUrl] = useState('all');
   const Map = React.useMemo(
     () =>
       dynamic(
@@ -50,12 +51,20 @@ function MapPage(props) {
     <div>
       <Header username={props.username} />
       <select css={dropdownStyle} onChange={(e) => setIconUrl(e.target.value)}>
+        <option select="selected" value="all">
+          All
+        </option>
         <option value="/surferIcon-rbg.png">Surfing</option>
         <option value="/kitesurfIcon.png">Kitesurfing</option>
         <option value="/wakeboardIcon.png">Wakeboarding</option>
         <option value="/skateIcon-removebg.png">Skateboarding</option>
       </select>
-      <Map iconUrl={iconUrl} infos={infos} username={props.username} />
+      <Map
+        iconUrl={iconUrl}
+        infos={infos}
+        username={props.username}
+        rating={rating}
+      />
 
       {props.username ? (
         <button
@@ -64,9 +73,11 @@ function MapPage(props) {
         >
           {getLocation?.length === 2 ? (
             <Link
-              href={`/management/addspot/${iconUrl
-                .replace('/', '')
-                .replace('.png', '')}`}
+              href={`/management/addspot/${
+                iconUrl === 'all'
+                  ? 'surferIcon-rbg'
+                  : iconUrl.replace('/', '').replace('.png', '')
+              }`}
             >
               <a>+</a>
             </Link>
@@ -85,11 +96,13 @@ export default MapPage;
 
 export async function getServerSideProps() {
   const { getInfo } = await import('../util/database');
+  const { getRating } = await import('../util/database');
   const data = await getInfo();
-  console.log(data);
+  // const rating = await getRating();
   return {
     props: {
       data: data,
+      // rating: rating,
     },
   };
 }

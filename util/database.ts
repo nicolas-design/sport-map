@@ -5,6 +5,7 @@ import setPostgresDefaultsOnHeroku from '../setPostgresDefaultsOnHeroku';
 import {
   ApplicationError,
   Info,
+  Rating,
   Session,
   User,
   UserWithPasswordHash,
@@ -341,12 +342,13 @@ export async function insertPlace(
   spotDescription: string,
   coordinates: string,
   usernameOwner: string,
+  userRating: string,
 ) {
   const mapinfo = await sql<[Info]>`
     INSERT INTO mapinfo
-      (address_int, city, sport_type, spot_description, coordinates, username_owner)
+      (address_int, city, sport_type, spot_description, coordinates, username_owner, user_rating)
     VALUES
-      (${addressInt}, ${city}, ${sportType}, ${spotDescription}, ${coordinates}, ${usernameOwner})
+      (${addressInt}, ${city}, ${sportType}, ${spotDescription}, ${coordinates}, ${usernameOwner}, ${userRating})
     RETURNING
       id,
       address_int,
@@ -369,6 +371,7 @@ export async function updateInfoById(
   city: string,
   sportType: string,
   spotDescription: string,
+  userRating: string,
 ) {
   if (!infoId) return undefined;
 
@@ -379,7 +382,8 @@ export async function updateInfoById(
       address_int = ${addressInt},
       city = ${city},
       sport_type = ${sportType},
-      spot_description = ${spotDescription}
+      spot_description = ${spotDescription},
+      user_rating = ${userRating}
     WHERE
       id = ${infoId}
     RETURNING
@@ -387,7 +391,8 @@ export async function updateInfoById(
       address_int,
       city,
       sport_type,
-      spot_description
+      spot_description,
+      user_rating
   `;
   return mapinfo.map((info) => camelcaseKeys(info))[0];
 }
@@ -428,3 +433,101 @@ export async function getInfoById(id?: number) {
   `;
   return mapinfo.map((info) => camelcaseKeys(info))[0];
 }
+
+export async function getInfoBySportType(sportType?: string) {
+  // Return undefined if userId is not parseable
+  // to an integer
+  if (!sportType) {
+    const res = await sql`SELECT * FROM mapinfo`;
+    return res.map((prod) => {
+      return camelcaseKeys(prod);
+    });
+  }
+
+  const mapinfo = await sql<[Info]>`
+    SELECT
+      id,
+      address_int,
+      city,
+      sport_type,
+      spot_description
+    FROM
+      mapinfo
+    WHERE
+      sport_type = ${sportType}
+  `;
+  return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+/* export async function insertRating(id: string, userRating: string) {
+  const spotrating = await sql<[Rating]>`
+    INSERT INTO spotrating
+      (id, user_rating)
+    VALUES
+      (${id}, ${userRating})
+    RETURNING
+      id,
+      user_rating
+  `;
+  return spotrating.map((rating) => camelcaseKeys(rating))[0];
+}
+
+export async function getRating() {
+  const res = await sql`SELECT * FROM spotrating`;
+  return res.map((rating) => {
+    return camelcaseKeys(rating);
+  });
+}
+
+export async function updateRatingById(
+  ratingId: string | undefined,
+  userRating: string,
+) {
+  if (!ratingId) return undefined;
+
+  const spotrating = await sql<[Rating]>`
+    UPDATE
+      spotrating
+    SET
+      user_rating = ${userRating}
+    WHERE
+      id = ${ratingId}
+    RETURNING
+      id,
+      user_rating
+  `;
+  return spotrating.map((rating) => camelcaseKeys(rating))[0];
+}
+
+export async function deleteRatingById(id?: string) {
+  if (!id) return undefined;
+
+  const spotrating = await sql`
+    DELETE FROM
+      spotrating
+    WHERE
+      id = ${id}
+    RETURNING
+      id,
+      user_rating
+  `;
+  return spotrating.map((rating) => camelcaseKeys(rating))[0];
+}
+
+export async function getRatingById(id?: string) {
+  // Return undefined if userId is not parseable
+  // to an integer
+  if (!id) return undefined;
+
+  const spotrating = await sql<[Info]>`
+    SELECT
+      id,
+      user_rating
+    FROM
+      spotrating
+    WHERE
+      id = ${id}
+  `;
+  return spotrating.map((rating) => camelcaseKeys(rating))[0];
+}
+*/

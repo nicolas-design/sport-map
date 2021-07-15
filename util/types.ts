@@ -13,6 +13,7 @@ export type Info = {
   spotDescription: string;
   coordinates: string;
   usernameOwner: string;
+  userRating: string;
 };
 
 export type UserWithPasswordHash = User & {
@@ -27,3 +28,8 @@ export type Session = {
 };
 
 export type ApplicationError = { message: string };
+
+export type Rating = {
+  id: string;
+  userRating: string;
+};

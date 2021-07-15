@@ -24,6 +24,7 @@ export default async function singleUserHandler(
       req.body.city,
       req.body.sportType,
       req.body.spotDescription,
+      req.body.userRating,
     );
     return res.status(200).json({ spot: spot || null });
   } else if (req.method === 'DELETE') {

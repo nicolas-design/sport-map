@@ -140,8 +140,19 @@ export default function AddSpot(props) {
                 spotDescription: spotDescription,
                 coordinates: JSON.stringify(getLocationValue()),
                 usernameOwner: props.username,
+                userRating: "{}",
               }),
             });
+            /* const response2 = await fetch(`/api/rating`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                id: JSON.stringify(getLocationValue()),
+                userRating: '{}',
+              }),
+            });*/
             const { spotInfo: createdSpot } = await response.json();
 
             // Navigate to the map page when
