@@ -16,7 +16,8 @@ import {
   SearchControl,
 } from 'leaflet-geosearch';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import Heart from 'react-heart';
 import {
   LeafletMap,
   MapContainer,
@@ -74,6 +75,17 @@ const buttonStyle = css`
   font-weight: 200;
 `;
 
+const heartStyle = css`
+  width: 1.2rem;
+  align-items: right;
+`;
+
+const wrapperLike = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const provider = new OpenStreetMapProvider();
 
 const SearchField = ({ apiKey }) => {
@@ -129,6 +141,10 @@ const MarkersTotal = (props) => {
   const [placeCity, setPlaceCity] = useState(null);
   const [placeSport, setPlaceSport] = useState(null);
   const [placeDescript, setPlaceDescript] = useState(null);
+  const [test, setTest] = useState(null);
+  const [test2, setTest2] = useState(null);
+  const [test3, setTest3] = useState(null);
+  const [active, setActive] = useState(false);
 
   return infos.map((info) => {
     const ICON = icon({
@@ -136,26 +152,13 @@ const MarkersTotal = (props) => {
       iconSize: [40, 40],
     });
 
-    async function ratingChanged(newRating) {
+    const ratingChanged = async (newRating) => {
+      console.log(newRating);
       let userRating = info.userRating;
 
       let parsedRating = JSON.parse(userRating);
       parsedRating[props.username] = newRating;
       userRating = parsedRating;
-
-      /* if (info.userRating === 'default') {
-        userRating = new HashMap();
-        userRating.set(props.username, newRating);
-      }  else {
-        userRating = new HashMap();
-        for (const i = 0; i < parsed; i++) {
-          console.log(parsed[i]);
-          userRating.set(parsed[i], parsed[i]);
-        }
-        userRating.set(props.username, newRating);
-      }
-      let userRatingRes = JSON.stringify(userRating._data['♠a']);
-      console.log('hash', userRatingRes);*/
 
       let userRatingRes = JSON.stringify(userRating);
 
@@ -173,10 +176,11 @@ const MarkersTotal = (props) => {
         }),
       });
       const { spot: updatedSpot } = await response.json();
-      console.log(newRating);
-    }
+      window.location.reload(false);
+    };
 
     function totalStars() {
+      // setTest2(info.userRating);
       let userRating = JSON.parse(info.userRating);
       let resArray = Object.values(userRating);
       let start = 0;
@@ -187,10 +191,15 @@ const MarkersTotal = (props) => {
     }
 
     function peopleRated() {
+      // setTest3(info.userRating);
       let userRating = JSON.parse(info.userRating);
       let resArray = Object.values(userRating);
       return resArray.length;
     }
+
+    /* const ratingUse = useEffect(() => {
+      return totalStars();
+    }, [ratingChanged()]); */
 
     if (props.iconUrl === '/' + info.sportType + '.png') {
       return (
@@ -342,22 +351,45 @@ const MarkersTotal = (props) => {
             ) : (
               <div>
                 <h2>{placeCity === null ? info.city : placeCity}</h2>
+
                 <h3>
                   {placeAddress === null ? info.addressInt : placeAddress}
                 </h3>
                 {placeDescript === null ? info.spotDescription : placeDescript}
-                <div>
-                  <ReactStars
-                    count={5}
-                    onChange={ratingChanged()}
-                    size={24}
-                    activeColor="#ffd700"
-                    value={totalStars()}
-                  />
+                <div css={wrapperLike}>
+                  <div>
+                    <ReactStars
+                      count={5}
+                      onChange={ratingChanged}
+                      size={24}
+                      activeColor="#ffd700"
+                      value={totalStars()}
+                    />
+                  </div>
+                  <div css={heartStyle}>
+                    <Heart
+                      isActive={active}
+                      onClick={async () => {
+                        setActive(!active);
+                        console.log(username);
+                        const response = await fetch(`/api/user/${username}`, {
+                          method: 'PUT',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            favorites: info.id,
+                          }),
+                        });
+                        const { spot: updatedSpot } = await response.json();
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
                   Average rating: {totalStars()} People rated: {peopleRated()}
                 </div>
+
                 {username == info.usernameOwner ? (
                   <div>
                     <button
@@ -545,18 +577,40 @@ const MarkersTotal = (props) => {
             ) : (
               <div>
                 <h2>{placeCity === null ? info.city : placeCity}</h2>
+
                 <h3>
                   {placeAddress === null ? info.addressInt : placeAddress}
                 </h3>
                 {info.spotDescription}
-                <div>
-                  <ReactStars
-                    count={5}
-                    onChange={ratingChanged}
-                    size={24}
-                    activeColor="#ffd700"
-                    value={totalStars()}
-                  />
+                <div css={wrapperLike}>
+                  <div>
+                    <ReactStars
+                      count={5}
+                      onChange={ratingChanged}
+                      size={24}
+                      activeColor="#ffd700"
+                      value={totalStars()}
+                    />
+                  </div>
+                  <div css={heartStyle}>
+                    <Heart
+                      isActive={active}
+                      onClick={async () => {
+                        setActive(!active);
+                        console.log(username);
+                        const response = await fetch(`/api/user/${username}`, {
+                          method: 'PUT',
+                          headers: {
+                            'Content-Type': 'application/json',
+                          },
+                          body: JSON.stringify({
+                            favorites: info.id,
+                          }),
+                        });
+                        const { spot: updatedSpot } = await response.json();
+                      }}
+                    />
+                  </div>
                 </div>
                 <div>
                   Average rating: {totalStars()} People rated: {peopleRated()}
@@ -620,7 +674,7 @@ const Map = (props) => {
         />
       </MarkerClusterGroup>
     );
-  }, [props]);
+  }, [props.iconUrl]);
 
   const ICON = icon({
     iconUrl: props.iconUrl === 'all' ? '/surferIcon-rbg.png' : props.iconUrl,

@@ -4,8 +4,8 @@ import postgres from 'postgres';
 import setPostgresDefaultsOnHeroku from '../setPostgresDefaultsOnHeroku';
 import {
   ApplicationError,
+  Favorite,
   Info,
-  Rating,
   Session,
   User,
   UserWithPasswordHash,
@@ -164,6 +164,23 @@ export async function getUserByUsernameAndToken(
   return camelcaseKeys(user);
 }
 
+export async function updateUserByUsername(
+  username: string | undefined,
+  favorites: string,
+) {
+  if (!username) return undefined;
+
+  const users = await sql<[User]>`
+  UPDATE
+    users
+  SET
+    favorites = ${favorites}
+  WHERE
+    username = ${username}
+  `;
+  return users.map((user) => camelcaseKeys(user))[0];
+}
+
 export async function getUserWithPasswordHashByUsername(username?: string) {
   // Return undefined if username is falsy
   if (!username) return undefined;
@@ -210,12 +227,13 @@ export async function insertUser(
   username: string,
   email: string,
   passwordHash: string,
+  favorites: string,
 ) {
   const users = await sql<[User]>`
     INSERT INTO users
-      (first_name, last_name, username, email, password_hash)
+      (first_name, last_name, username, email, password_hash, favorites)
     VALUES
-      (${firstName}, ${lastName}, ${username}, ${email}, ${passwordHash})
+      (${firstName}, ${lastName}, ${username}, ${email}, ${passwordHash}, ${favorites})
     RETURNING
       id,
       first_name,
@@ -229,6 +247,7 @@ export async function updateUserById(
   userId: number | undefined,
   firstName: string,
   lastName: string,
+  favorites: string,
 ) {
   if (!userId) return undefined;
 
@@ -237,14 +256,16 @@ export async function updateUserById(
       users
     SET
       first_name = ${firstName},
-      last_name = ${lastName}
+      last_name = ${lastName},
+      favorites = ${favorites}
     WHERE
       id = ${userId}
     RETURNING
       id,
       first_name,
       last_name,
-      username
+      username,
+      favorites
   `;
   return users.map((user) => camelcaseKeys(user))[0];
 }
@@ -459,23 +480,24 @@ export async function getInfoBySportType(sportType?: string) {
   return mapinfo.map((info) => camelcaseKeys(info))[0];
 }
 
-/* export async function insertRating(id: string, userRating: string) {
-  const spotrating = await sql<[Rating]>`
-    INSERT INTO spotrating
-      (id, user_rating)
+/* export async function insertFavorite(id: number, username: string, spots: string) {
+  const spotfavorite = await sql<[Favorite]>`
+    INSERT INTO spotfavorite
+      (id, username, spots)
     VALUES
-      (${id}, ${userRating})
+      (${id}, ${username}, ${spots})
     RETURNING
       id,
-      user_rating
+      username,
+      spots
   `;
-  return spotrating.map((rating) => camelcaseKeys(rating))[0];
+  return spotfavorite.map((favorite) => camelcaseKeys(favorite))[0];
 }
 
-export async function getRating() {
-  const res = await sql`SELECT * FROM spotrating`;
-  return res.map((rating) => {
-    return camelcaseKeys(rating);
+export async function getFavorite() {
+  const res = await sql`SELECT * FROM spotfavorite`;
+  return res.map((favorite) => {
+    return camelcaseKeys(favorite);
   });
 }
 

@@ -31,7 +31,7 @@ const dropdownStyle = css`
 
 function MapPage(props) {
   const infos = props.data;
-  const rating = props.rating;
+
   const [getLocation, setGetLocation] = useState(getLocationValue());
   const [iconUrl, setIconUrl] = useState('all');
   const Map = React.useMemo(
@@ -43,9 +43,7 @@ function MapPage(props) {
           ssr: false, // This line is important. It's what prevents server-side render
         },
       ),
-    [
-      /* list variables which should trigger a re-render here */
-    ],
+    [props],
   );
   return (
     <div>
@@ -59,12 +57,7 @@ function MapPage(props) {
         <option value="/wakeboardIcon.png">Wakeboarding</option>
         <option value="/skateIcon-removebg.png">Skateboarding</option>
       </select>
-      <Map
-        iconUrl={iconUrl}
-        infos={infos}
-        username={props.username}
-        rating={rating}
-      />
+      <Map iconUrl={iconUrl} infos={infos} username={props.username} />
 
       {props.username ? (
         <button

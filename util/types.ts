@@ -4,6 +4,7 @@ export type User = {
   lastName: string;
   username: string;
   email: string;
+  favorites: string;
 };
 export type Info = {
   id: number;
@@ -29,7 +30,8 @@ export type Session = {
 
 export type ApplicationError = { message: string };
 
-export type Rating = {
-  id: string;
-  userRating: string;
+export type Favorite = {
+  id: number;
+  username: string;
+  spots: string;
 };

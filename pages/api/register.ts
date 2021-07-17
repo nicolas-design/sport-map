@@ -28,7 +28,7 @@ export default async function registerHandler(
   res: NextApiResponse<RegisterResponse>,
 ) {
   if (req.method === 'POST') {
-    const { firstName, lastName, username, password, email, csrfToken } =
+    const { firstName, lastName, username, password, email, csrfToken, favorites } =
       req.body;
 
     const sessionToken = req.cookies.sessionTokenRegister;
@@ -64,6 +64,7 @@ export default async function registerHandler(
       username,
       email,
       passwordHash,
+      favorites,
     );
 
     // Clean up expired sessions

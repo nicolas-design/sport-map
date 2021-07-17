@@ -140,7 +140,7 @@ export default function AddSpot(props) {
                 spotDescription: spotDescription,
                 coordinates: JSON.stringify(getLocationValue()),
                 usernameOwner: props.username,
-                userRating: "{}",
+                userRating: '{}',
               }),
             });
             /* const response2 = await fetch(`/api/rating`, {
@@ -161,7 +161,7 @@ export default function AddSpot(props) {
           }}
         >
           <div css={backgroundPage}>
-            <Header />
+            <Header username={props.username} />
             <div css={inputA}>
               <label>
                 <input

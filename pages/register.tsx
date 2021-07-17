@@ -99,6 +99,7 @@ export default function Register(props: Props) {
               password: password,
               email: email,
               csrfToken: props.csrfToken,
+              favorites: '{}',
             }),
           });
           const json = (await response.json()) as RegisterResponse;
