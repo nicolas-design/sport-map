@@ -29,8 +29,14 @@ const dropdownStyle = css`
   height: 32px;
 `;
 
+const marginStyle = css`
+  height: 100px;
+  padding-top: 50px;
+`;
+
 function MapPage(props) {
   const infos = props.data;
+  const users = props.favorites;
 
   const [getLocation, setGetLocation] = useState(getLocationValue());
   const [iconUrl, setIconUrl] = useState('all');
@@ -48,39 +54,51 @@ function MapPage(props) {
   return (
     <div>
       <Header username={props.username} />
-      <select css={dropdownStyle} onChange={(e) => setIconUrl(e.target.value)}>
-        <option select="selected" value="all">
-          All
-        </option>
-        <option value="/surferIcon-rbg.png">Surfing</option>
-        <option value="/kitesurfIcon.png">Kitesurfing</option>
-        <option value="/wakeboardIcon.png">Wakeboarding</option>
-        <option value="/skateIcon-removebg.png">Skateboarding</option>
-      </select>
-      <Map iconUrl={iconUrl} infos={infos} username={props.username} />
-
-      {props.username ? (
-        <button
-          css={buttonStyle}
-          onClick={() => setGetLocation(getLocationValue())}
+      <div>
+        <select
+          css={dropdownStyle}
+          onChange={(e) => setIconUrl(e.target.value)}
         >
-          {getLocation?.length === 2 ? (
-            <Link
-              href={`/management/addspot/${
-                iconUrl === 'all'
-                  ? 'surferIcon-rbg'
-                  : iconUrl.replace('/', '').replace('.png', '')
-              }`}
-            >
-              <a>+</a>
-            </Link>
-          ) : (
-            <> + </>
-          )}
-        </button>
-      ) : (
-        <div />
-      )}
+          <option select="selected" value="all">
+            All
+          </option>
+          <option value="/surferIcon-rbg.png">Surfing</option>
+          <option value="/kitesurfIcon.png">Kitesurfing</option>
+          <option value="/wakeboardIcon.png">Wakeboarding</option>
+          <option value="/skateIcon-removebg.png">Skateboarding</option>
+        </select>
+        <Map
+          iconUrl={iconUrl}
+          infos={infos}
+          username={props.username}
+          users={users}
+        />
+
+        {props.username ? (
+          <button
+            css={buttonStyle}
+            onClick={() => {
+              setGetLocation(getLocationValue());
+            }}
+          >
+            {getLocation?.length === 2 ? (
+              <Link
+                href={`/management/addspot/${
+                  iconUrl === 'all'
+                    ? 'surferIcon-rbg'
+                    : iconUrl.replace('/', '').replace('.png', '')
+                }`}
+              >
+                <a>+</a>
+              </Link>
+            ) : (
+              <> + </>
+            )}
+          </button>
+        ) : (
+          <div />
+        )}
+      </div>
     </div>
   );
 }
@@ -89,13 +107,14 @@ export default MapPage;
 
 export async function getServerSideProps() {
   const { getInfo } = await import('../util/database');
-  const { getRating } = await import('../util/database');
+  const { getFavoritesAndUsername } = await import('../util/database');
   const data = await getInfo();
-  // const rating = await getRating();
+  const favorites = await getFavoritesAndUsername();
+
   return {
     props: {
       data: data,
-      // rating: rating,
+      favorites: favorites,
     },
   };
 }

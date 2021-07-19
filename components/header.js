@@ -46,6 +46,7 @@ const imgStyle = css`
   position: absolute;
   color: #86c232;
   right: 4%;
+  display: flex;
 `;
 
 const aStyle = css`
@@ -62,6 +63,10 @@ const totalStyle = css`
   right: 4%;
   top: 9px;
   color: white;
+`;
+
+const imgSpace = css`
+  margin-right: 24px;
 `;
 
 export default function Header(props) {
@@ -83,7 +88,27 @@ export default function Header(props) {
         )}
       </h3>
       <div css={imgStyle}>
-        <Image src="/menu.svg" alt="menu" height={25} width={25}></Image>
+        <div css={imgSpace}>
+          <Link href={`/created/${props.username}`}>
+            <a>
+              <Image src="/plus.svg" alt="menu" height={25} width={25} />
+            </a>
+          </Link>
+        </div>
+        <div css={imgSpace}>
+          <Link href={`/${props.username}`}>
+            <a>
+              <Image src="/heart.svg" alt="menu" height={25} width={25} />
+            </a>
+          </Link>
+        </div>
+        <div>
+          <Link href="/map">
+            <a>
+              <Image src="/mapIcon.svg" alt="menu" height={25} width={25} />
+            </a>
+          </Link>
+        </div>
       </div>
       <div css={totalStyle}></div>
       <div css={homeStyle}></div>

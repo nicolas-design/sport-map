@@ -133,7 +133,8 @@ const Markers = (props) => {
 
 const MarkersTotal = (props) => {
   const infos = props.infos;
-  const rating = props.rating;
+  const users = props.users;
+
   const username = props.username;
   const [editing, setEditing] = useState(null);
   const [draftSpot, setDraftSpot] = useState(null);
@@ -144,7 +145,6 @@ const MarkersTotal = (props) => {
   const [test, setTest] = useState(null);
   const [test2, setTest2] = useState(null);
   const [test3, setTest3] = useState(null);
-  const [active, setActive] = useState(false);
 
   return infos.map((info) => {
     const ICON = icon({
@@ -178,6 +178,16 @@ const MarkersTotal = (props) => {
       const { spot: updatedSpot } = await response.json();
       window.location.reload(false);
     };
+
+    function active() {
+      let user = users.filter((user) => {
+        return user.username === username;
+      });
+      user = user[0];
+
+      let favorites = JSON.parse(user.favorites);
+      return favorites.includes(info.id);
+    }
 
     function totalStars() {
       // setTest2(info.userRating);
@@ -368,20 +378,36 @@ const MarkersTotal = (props) => {
                   </div>
                   <div css={heartStyle}>
                     <Heart
-                      isActive={active}
+                      isActive={active()}
                       onClick={async () => {
-                        setActive(!active);
-                        console.log(username);
+                        let user = users.filter((user) => {
+                          return user.username === username;
+                        });
+                        user = user[0];
+
+                        let favorites = JSON.parse(user.favorites);
+
+                        if (favorites.includes(info.id)) {
+                          favorites = favorites.filter((numb) => {
+                            return numb !== info.id;
+                          });
+                          console.log('filter', favorites);
+                        } else {
+                          favorites = [...favorites, info.id];
+                        }
+                        favorites = JSON.stringify(favorites);
+                        console.log(favorites);
                         const response = await fetch(`/api/user/${username}`, {
                           method: 'PUT',
                           headers: {
                             'Content-Type': 'application/json',
                           },
                           body: JSON.stringify({
-                            favorites: info.id,
+                            favorites: favorites,
                           }),
                         });
                         const { spot: updatedSpot } = await response.json();
+                        window.location.reload(false);
                       }}
                     />
                   </div>
@@ -594,20 +620,36 @@ const MarkersTotal = (props) => {
                   </div>
                   <div css={heartStyle}>
                     <Heart
-                      isActive={active}
+                      isActive={active()}
                       onClick={async () => {
-                        setActive(!active);
-                        console.log(username);
+                        let user = users.filter((user) => {
+                          return user.username === username;
+                        });
+                        user = user[0];
+
+                        let favorites = JSON.parse(user.favorites);
+
+                        if (favorites.includes(info.id)) {
+                          favorites = favorites.filter((numb) => {
+                            return numb !== info.id;
+                          });
+                          console.log('filter', favorites);
+                        } else {
+                          favorites = [...favorites, info.id];
+                        }
+                        favorites = JSON.stringify(favorites);
+                        console.log(favorites);
                         const response = await fetch(`/api/user/${username}`, {
                           method: 'PUT',
                           headers: {
                             'Content-Type': 'application/json',
                           },
                           body: JSON.stringify({
-                            favorites: info.id,
+                            favorites: favorites,
                           }),
                         });
                         const { spot: updatedSpot } = await response.json();
+                        window.location.reload(false);
                       }}
                     />
                   </div>
@@ -671,6 +713,7 @@ const Map = (props) => {
           infos={props.infos}
           username={props.username}
           iconUrl={props.iconUrl}
+          users={props.users}
         />
       </MarkerClusterGroup>
     );
@@ -745,15 +788,3 @@ const Map = (props) => {
 };
 
 export default Map;
-
-/* export async function getServerSideProps() {
-  const { getInfo } = await import('../util/database');
-  const data = await getInfo();
-  console.log(data);
-  return {
-    props: {
-      data: data,
-    },
-  };
-}
-*/

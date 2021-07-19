@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { convertQueryValueString } from '../../../util/context';
 import {
   deleteUserById,
-  getUserById,
+  getFavoritesByUsername,
   updateUserById,
   updateUserByUsername,
 } from '../../../util/database';
@@ -15,13 +15,10 @@ export default async function singleUserHandler(
 
   const userName = convertQueryValueString(req.query.userId);
 
-  /* if (req.method === 'GET') {
-    const user = await getUserById(infoId);
+  if (req.method === 'GET') {
+    const user = await getFavoritesByUsername(userName);
     return res.status(200).json({ user: user || null });
-  } else
-  */
-
-  if (req.method === 'PUT') {
+  } else if (req.method === 'PUT') {
     const user = await updateUserByUsername(userName, req.body.favorites);
     return res.status(200).json({ user: user || null });
   } /* else if (req.method === 'DELETE') {

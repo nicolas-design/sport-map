@@ -446,13 +446,36 @@ export async function getInfoById(id?: number) {
       address_int,
       city,
       sport_type,
-      spot_description
+      spot_description,
+      coordinates
     FROM
       mapinfo
     WHERE
       id = ${id}
   `;
   return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+export async function getInfoByUsername(username: string) {
+  if (!username) {
+    return undefined;
+  }
+
+  const mapinfo = await sql<[Info]>`
+  SELECT
+    id,
+    address_int,
+    city,
+    sport_type,
+    spot_description,
+    coordinates,
+    user_rating
+  FROM
+    mapinfo
+  WHERE
+    username_owner = ${username}
+`;
+  return mapinfo.map((info) => camelcaseKeys(info));
 }
 
 export async function getInfoBySportType(sportType?: string) {
@@ -478,6 +501,33 @@ export async function getInfoBySportType(sportType?: string) {
       sport_type = ${sportType}
   `;
   return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+export async function getFavoritesByUsername(username: string | undefined) {
+  if (!username) {
+    return undefined;
+  }
+
+  const users = await sql<[User]>`
+    SELECT
+      favorites
+    FROM
+      users
+    WHERE
+      username = ${username}
+  `;
+  return users.map((user) => camelcaseKeys(user))[0];
+}
+
+export async function getFavoritesAndUsername() {
+  const users = await sql<[User]>`
+    SELECT
+      favorites,
+      username
+    FROM
+      users
+  `;
+  return users.map((user) => camelcaseKeys(user));
 }
 
 /* export async function insertFavorite(id: number, username: string, spots: string) {
