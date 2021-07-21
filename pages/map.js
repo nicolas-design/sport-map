@@ -57,7 +57,9 @@ function MapPage(props) {
       <div>
         <select
           css={dropdownStyle}
-          onChange={(e) => setIconUrl(e.target.value)}
+          onChange={(e) => {
+            setIconUrl(e.target.value);
+          }}
         >
           <option select="selected" value="all">
             All
@@ -108,8 +110,9 @@ export default MapPage;
 export async function getServerSideProps() {
   const { getInfo } = await import('../util/database');
   const { getFavoritesAndUsername } = await import('../util/database');
-  const data = await getInfo();
+  let data = await getInfo();
   const favorites = await getFavoritesAndUsername();
+  data = data.filter((obj) => obj !== undefined);
 
   return {
     props: {

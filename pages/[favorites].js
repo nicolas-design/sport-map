@@ -78,6 +78,7 @@ export async function getServerSideProps(context) {
   for (let i = 0; i < user.length; i++) {
     resLoop.push(await getInfoById(user[i]));
   }
+  resLoop = resLoop.filter((obj) => obj !== undefined);
   console.log(resLoop);
   return {
     props: {

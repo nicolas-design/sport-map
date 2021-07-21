@@ -196,31 +196,6 @@ export async function getUserWithPasswordHashByUsername(username?: string) {
   return users.map((user) => camelcaseKeys(user))[0];
 }
 
-export async function getUserByIdWithCourses(userId?: number) {
-  // Return undefined if userId is not parseable
-  // to an integer
-  if (!userId) return undefined;
-
-  const userCourses = await sql`
-    SELECT
-      users.id as user_id,
-      users.first_name as user_first_name,
-      users.last_name as user_last_name,
-      courses.id as course_id,
-      courses.title as course_title,
-      courses.slug as course_slug
-    FROM
-      users,
-      courses,
-      users_courses
-    WHERE
-      users.id = ${userId} AND
-      users.id = users_courses.user_id AND
-      users_courses.course_id = courses.id
-  `;
-  return userCourses.map((user) => camelcaseKeys(user));
-}
-
 export async function insertUser(
   firstName: string,
   lastName: string,
