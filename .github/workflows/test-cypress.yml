@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
       # Use Cypress GitHub action to run tests
       # https://github.com/cypress-io/github-action
-      - name: cypress run
+      - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
           build: yarn migrate up
@@ -30,3 +30,16 @@ jobs:
           PGDATABASE: ${{ secrets.PGDATABASE }}
           PGUSERNAME: ${{ secrets.PGUSERNAME }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
+          CSRF_SECRET_SALT: ${{ secrets.CSRF_SECRET_SALT }}
+      # Store any Cypress screenshots on test failure
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      # Store any Cypress videos on test failure
+      - uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
