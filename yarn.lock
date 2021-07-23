@@ -2230,6 +2230,11 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
+cy@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/cy/-/cy-0.0.1.tgz#4dd4e18695fab09c55f959a5cf3b056534705713"
+  integrity sha1-TdThhpX6sJxV+VmlzzsFZTRwVxM=
+
 cypress@^8.0.0:
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.0.0.tgz#bd68f4cff9ffb0c1176e9dd87d020cbdd0001ab8"
