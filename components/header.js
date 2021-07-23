@@ -32,15 +32,7 @@ const loginStyle = css`
   text-decoration: none;
 `;
 
-const middleT = css`
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 28px;
-  margin-left: 45%;
-  color: white;
-  font-family: 'Vibur';
-`;
+
 
 const imgStyle = css`
   position: absolute;
@@ -116,8 +108,8 @@ export default function Header(props) {
           </Link>
         </div>
       </div>
-      <div css={totalStyle}></div>
-      <div css={homeStyle}></div>
+      <div css={totalStyle}/>
+      <div css={homeStyle}/>
     </header>
   );
 }

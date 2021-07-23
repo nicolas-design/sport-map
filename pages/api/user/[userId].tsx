@@ -4,7 +4,6 @@ import {
   deleteInfoByUsername,
   deleteUserByUsername,
   getFavoritesByUsername,
-  updateUserById,
   updateUserByUsername,
 } from '../../../util/database';
 

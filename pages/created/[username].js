@@ -1,7 +1,6 @@
+/* eslint-disable no-shadow */
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import Header from '../../components/header';
@@ -33,8 +32,6 @@ const backgroundPage = css`
   padding-left: 10px;
   padding-right: 10px;
 `;
-
-const divWrap = css``;
 
 const wrapperMarker = css`
   display: flex;
@@ -118,10 +115,7 @@ export default function Favorites(props) {
   });
   const [editing, setEditing] = useState(null);
   const [draftSpot, setDraftSpot] = useState(null);
-  const [placeAddress, setPlaceAddress] = useState(null);
-  const [placeCity, setPlaceCity] = useState(null);
-  const [placeSport, setPlaceSport] = useState(null);
-  const [placeDescript, setPlaceDescript] = useState(null);
+
   const router = useRouter();
 
   const [placeRep, setPlaceRep] = useState(places);
@@ -179,7 +173,7 @@ export default function Favorites(props) {
                             },
                           );
                           const { spot: updatedSpot } = await response.json();
-                          let newArr = placeRep.filter(
+                          const newArr = placeRep.filter(
                             (place) => place.id !== updatedSpot.id,
                           );
                           setPlaceRep(newArr);
@@ -204,7 +198,6 @@ export default function Favorites(props) {
                               city: event.currentTarget.value,
                             };
                             setDraftSpot(editedSpot);
-                            setPlaceCity(event.currentTarget.value);
                           }}
                         />
                       </label>
@@ -220,7 +213,6 @@ export default function Favorites(props) {
                               addressInt: event.currentTarget.value,
                             };
                             setDraftSpot(editedSpot);
-                            setPlaceAddress(event.currentTarget.value);
                           }}
                         />
                       </label>
@@ -234,7 +226,6 @@ export default function Favorites(props) {
                             sportType: event.currentTarget.value,
                           };
                           setDraftSpot(editedSpot);
-                          setPlaceSport(event.currentTarget.value);
                         }}
                       >
                         <option
@@ -290,7 +281,6 @@ export default function Favorites(props) {
                               spotDescription: event.currentTarget.value,
                             };
                             setDraftSpot(editedSpot);
-                            setPlaceDescript(event.currentTarget.value);
                           }}
                         />
                       </label>
@@ -300,10 +290,6 @@ export default function Favorites(props) {
                         css={buttonStyle}
                         onClick={() => {
                           setEditing(null);
-                          setPlaceDescript(null);
-                          setPlaceSport(null);
-                          setPlaceAddress(null);
-                          setPlaceCity(null);
                         }}
                       >
                         Cancel
@@ -333,7 +319,7 @@ export default function Favorites(props) {
                           );
                           const { spot: updatedSpot } = await response.json();
                           console.log('update', updatedSpot);
-                          let newObj = placeRep.map((obj) => {
+                          const newObj = placeRep.map((obj) => {
                             if (updatedSpot.id === obj.id) {
                               return updatedSpot;
                             } else {
@@ -356,19 +342,17 @@ export default function Favorites(props) {
           })}
           <div>
             <button
-            data-cy="delete-button"
+              data-cy="delete-button"
               css={deletStyle}
               onClick={async () => {
-                const response = await fetch(`/api/user/${props.username}`, {
+                await fetch(`/api/user/${props.username}`, {
                   method: 'DELETE',
                   headers: {
                     'Content-Type': 'application/json',
                   },
                 });
-                const { spot: updatedSpot } = await response.json();
 
                 router.push('/logout');
-                //window.location.reload(false);
               }}
             >
               Delete Your Profile

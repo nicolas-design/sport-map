@@ -25,8 +25,6 @@ const backgroundPage = css`
   padding-right: 40px;
 `;
 
-const wrap2 = css``;
-
 const inputA = css`
   grid-column-start: 1;
   grid-row-start: 3;
@@ -128,7 +126,7 @@ export default function AddSpot(props) {
         <form
           onSubmit={async (event) => {
             event.preventDefault();
-            const response = await fetch(`/api/spot`, {
+            await fetch(`/api/spot`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
@@ -143,17 +141,6 @@ export default function AddSpot(props) {
                 userRating: '{}',
               }),
             });
-            /* const response2 = await fetch(`/api/rating`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                id: JSON.stringify(getLocationValue()),
-                userRating: '{}',
-              }),
-            });*/
-            const { spotInfo: createdSpot } = await response.json();
 
             // Navigate to the map page when
             // they have been successfully created
@@ -236,7 +223,9 @@ export default function AddSpot(props) {
                 />
               </label>
             </div>
-            <button data-cy="add-spot" css={buttonStyle}>Add</button>
+            <button data-cy="add-spot" css={buttonStyle}>
+              Add
+            </button>
           </div>
         </form>
       ) : (

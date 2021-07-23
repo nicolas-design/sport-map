@@ -1,7 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import Header from '../components/header';
 
@@ -109,7 +107,7 @@ export default function Favorites(props) {
                   favorites = JSON.stringify(favorites);
                   console.log('fav', favorites);
 
-                  const response = await fetch(`/api/user/${props.username}`, {
+                  await fetch(`/api/user/${props.username}`, {
                     method: 'PUT',
                     headers: {
                       'Content-Type': 'application/json',
@@ -118,9 +116,8 @@ export default function Favorites(props) {
                       favorites: favorites,
                     }),
                   });
-                  const { spot: updatedSpot } = await response.json();
 
-                  let newArr = places.filter((numb) =>
+                  const newArr = places.filter((numb) =>
                     favorites.includes(numb.id),
                   );
                   setPlaces(newArr);

@@ -1,10 +1,9 @@
+/* eslint-disable react/no-unstable-nested-components */
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../components/header';
 import { getLocationValue } from '../util/cookies';
 
@@ -30,17 +29,13 @@ const dropdownStyle = css`
   height: 32px;
 `;
 
-const marginStyle = css`
-  height: 100px;
-  padding-top: 50px;
-`;
-
 function MapPage(props) {
   const infos = props.data;
   const users = props.favorites;
   const router = useRouter();
 
   const [iconUrl, setIconUrl] = useState('all');
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const Map = React.useMemo(
     () =>
       dynamic(
@@ -50,7 +45,7 @@ function MapPage(props) {
           ssr: false, // This line is important. It's what prevents server-side render
         },
       ),
-    [props],
+    [],
   );
   return (
     <div>
@@ -82,7 +77,7 @@ function MapPage(props) {
             data-cy="add-button"
             css={buttonStyle}
             onClick={() => {
-              let test = getLocationValue();
+              const test = getLocationValue();
               if (test.length === 2) {
                 router.push(
                   `/management/addspot/${
@@ -111,6 +106,7 @@ export async function getServerSideProps() {
   const { getFavoritesAndUsername } = await import('../util/database');
   let data = await getInfo();
   const favorites = await getFavoritesAndUsername();
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   data = data.filter((obj) => obj !== undefined);
 
   return {

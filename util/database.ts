@@ -4,7 +4,6 @@ import postgres from 'postgres';
 import setPostgresDefaultsOnHeroku from '../setPostgresDefaultsOnHeroku';
 import {
   ApplicationError,
-  Favorite,
   Info,
   Session,
   User,

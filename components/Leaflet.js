@@ -1,25 +1,22 @@
 import 'leaflet/dist/leaflet.css';
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css'; // Re-uses images from ~leaflet package
+// eslint-disable-next-line import/no-unresolved
 import 'leaflet-defaulticon-compatibility';
 import 'esri-leaflet-geocoder/dist/esri-leaflet-geocoder.css';
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { geosearch } from 'esri-leaflet-geocoder';
-import HashMap from 'hashmap';
 import cookies from 'js-cookie';
-import L, { icon } from 'leaflet';
+import { icon } from 'leaflet';
 // import
 import {
   GeoSearchControl,
   MapBoxProvider,
   OpenStreetMapProvider,
-  SearchControl,
 } from 'leaflet-geosearch';
-import Link from 'next/link';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Heart from 'react-heart';
 import {
-  LeafletMap,
   MapContainer,
   Marker,
   Popup,
@@ -30,11 +27,6 @@ import {
 import MarkerClusterGroup from 'react-leaflet-markercluster';
 import ReactStars from 'react-rating-stars-component';
 import { getLocationValue } from '../util/cookies';
-
-// search
-const searchStyle = css`
-  width: 500px;
-`;
 
 const wrapperMarker = css`
   display: flex;
@@ -85,8 +77,6 @@ const wrapperLike = css`
   justify-content: space-between;
   align-items: center;
 `;
-
-const provider = new OpenStreetMapProvider();
 
 const SearchField = ({ apiKey }) => {
   const provider = new MapBoxProvider({
@@ -197,13 +187,13 @@ const MarkersTotal = (props) => {
             };
 
             function active() {
-              let user = users.filter((user) => {
-                return user.username === username;
+              let user = users.filter((user2) => {
+                return user2.username === username;
               });
               user = user[0];
 
-              let favorites = JSON.parse(user.favorites);
-              return favorites.includes(info.id);
+              let favorites = JSON.parse(user?.favorites);
+              return favorites?.includes(info.id);
             }
 
             function totalStars() {
@@ -864,13 +854,13 @@ const MarkersTotal = (props) => {
             };
 
             function active() {
-              let user = users.filter((user) => {
-                return user.username === username;
+              let user = users.filter((user2) => {
+                return user2.username === username;
               });
               user = user[0];
 
-              let favorites = JSON.parse(user.favorites);
-              return favorites.includes(info.id);
+              let favorites = JSON.parse(user?.favorites);
+              return favorites?.includes(info.id);
             }
 
             function totalStars() {
