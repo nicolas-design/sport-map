@@ -2,6 +2,8 @@ describe('Can navigate', () => {
   it('can visit and load', () => {
     cy.visit('http://localhost:3000/');
     cy.get('[data-cy="register-link"]').click();
+    cy.wait(3000);
+    cy.url().should('include', '/');
     cy.get('[data-cy="register1"]').type('exam1695');
     cy.get('[data-cy="register2"]').type('q');
     cy.get('[data-cy="register3"]').type('q');
