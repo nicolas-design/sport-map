@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import cookies from 'js-cookie';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import Header from '../components/header';
 import { getLocationValue } from '../util/cookies';
@@ -37,8 +38,8 @@ const marginStyle = css`
 function MapPage(props) {
   const infos = props.data;
   const users = props.favorites;
+  const router = useRouter();
 
-  const [getLocation, setGetLocation] = useState(getLocationValue());
   const [iconUrl, setIconUrl] = useState('all');
   const Map = React.useMemo(
     () =>
@@ -54,7 +55,7 @@ function MapPage(props) {
   return (
     <div>
       <Header username={props.username} />
-      <div>
+      <div data-cy="map">
         <select
           css={dropdownStyle}
           onChange={(e) => {
@@ -78,24 +79,22 @@ function MapPage(props) {
 
         {props.username ? (
           <button
+            data-cy="add-button"
             css={buttonStyle}
             onClick={() => {
-              setGetLocation(getLocationValue());
+              let test = getLocationValue();
+              if (test.length === 2) {
+                router.push(
+                  `/management/addspot/${
+                    iconUrl === 'all'
+                      ? 'surferIcon-rbg'
+                      : iconUrl.replace('/', '').replace('.png', '')
+                  }`,
+                );
+              }
             }}
           >
-            {getLocation?.length === 2 ? (
-              <Link
-                href={`/management/addspot/${
-                  iconUrl === 'all'
-                    ? 'surferIcon-rbg'
-                    : iconUrl.replace('/', '').replace('.png', '')
-                }`}
-              >
-                <a>+</a>
-              </Link>
-            ) : (
-              <> + </>
-            )}
+            <div data-cy="add-link"> +</div>
           </button>
         ) : (
           <div />

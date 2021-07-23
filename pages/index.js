@@ -85,7 +85,7 @@ export default function Home(props) {
               right spot.
             </p>
             <Link href="/register">
-              <a>
+              <a data-cy="register-link">
                 <button css={buttonStyle}>Sign up</button>
               </a>
             </Link>
@@ -97,8 +97,8 @@ export default function Home(props) {
             alt="surfer"
             layout="fill"
             objectFit="cover"
-          ></Image>
-          <div css={fade}></div>
+          />
+          <div css={fade} />
         </div>
       </div>
     </div>

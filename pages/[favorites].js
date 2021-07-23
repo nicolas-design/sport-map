@@ -2,6 +2,7 @@
 import { css } from '@emotion/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import Header from '../components/header';
 
 const backgroundPage = css`
@@ -13,7 +14,7 @@ const backgroundPage = css`
   display: flex;
   justify-content: space-evenly;
   padding-top: 60px;
-
+  flex-wrap: wrap;
   padding-left: 10px;
   padding-right: 10px;
 `;
@@ -26,10 +27,40 @@ const item = css`
   height: 300px;
   padding: 15px;
   margin: 20px;
+  position: relative;
 `;
 
 const divStyle = css`
   margin-top: 10px;
+`;
+
+const buttonStyle = css`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  border: none;
+  background-color: #222629;
+  color: red;
+  font-size: 16px;
+`;
+
+const header = css`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const headStyle = css`
+  font-weight: 200;
+  font-size: 36px;
+  color: #86c232;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
 `;
 
 export default function Favorites(props) {
@@ -44,12 +75,17 @@ export default function Favorites(props) {
       return 'Skateboarding';
     }
   }
-  const places = props.resLoop;
+  const places2 = props.resLoop;
+  const [places, setPlaces] = useState(places2);
+  const user = props.user;
   console.log(places);
   return (
     <div>
       <Header username={props.username} />
       <div css={backgroundPage}>
+        <div css={header}>
+          <div css={headStyle}>Favorites</div>
+        </div>
         {places.map((place) => {
           return (
             <div css={item} key={place.id}>
@@ -57,6 +93,41 @@ export default function Favorites(props) {
               <h3>{place.addressInt}</h3>
               <h5 css={divStyle}>{sportType(place.sportType)}</h5>
               <div css={divStyle}>{place.spotDescription}</div>
+              <button
+                css={buttonStyle}
+                onClick={async () => {
+                  console.log('user', user);
+                  let favorites = user;
+
+                  if (favorites.includes(place.id)) {
+                    favorites = favorites.filter((numb) => {
+                      return numb !== place.id;
+                    });
+                  } else {
+                    favorites = [...favorites, place.id];
+                  }
+                  favorites = JSON.stringify(favorites);
+                  console.log('fav', favorites);
+
+                  const response = await fetch(`/api/user/${props.username}`, {
+                    method: 'PUT',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      favorites: favorites,
+                    }),
+                  });
+                  const { spot: updatedSpot } = await response.json();
+
+                  let newArr = places.filter((numb) =>
+                    favorites.includes(numb.id),
+                  );
+                  setPlaces(newArr);
+                }}
+              >
+                X
+              </button>
             </div>
           );
         })}

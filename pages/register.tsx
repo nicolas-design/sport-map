@@ -126,6 +126,7 @@ export default function Register(props: Props) {
               <div css={item}>
                 <label>
                   <input
+                    data-cy="register1"
                     css={inputStyle}
                     placeholder="Username"
                     onChange={(event) => {
@@ -138,6 +139,7 @@ export default function Register(props: Props) {
               <div css={item}>
                 <label>
                   <input
+                    data-cy="register2"
                     css={inputStyle}
                     placeholder="Name"
                     onChange={(event) => {
@@ -150,6 +152,7 @@ export default function Register(props: Props) {
               <div css={item}>
                 <label>
                   <input
+                    data-cy="register3"
                     css={inputStyle}
                     placeholder="Last Name"
                     onChange={(event) => {
@@ -162,6 +165,7 @@ export default function Register(props: Props) {
               <div css={item}>
                 <label>
                   <input
+                    data-cy="register4"
                     css={inputStyle}
                     placeholder="Password"
                     type="password"
@@ -175,6 +179,7 @@ export default function Register(props: Props) {
               <div css={item}>
                 <label>
                   <input
+                    data-cy="register5"
                     css={inputStyle}
                     placeholder="Email"
                     onChange={(event) => {
@@ -185,7 +190,9 @@ export default function Register(props: Props) {
                 </label>
               </div>
               <div>
-                <button css={buttonStyle}>Sign up</button>
+                <button data-cy="signup-link" css={buttonStyle}>
+                  Sign up
+                </button>
               </div>
             </div>
           </div>

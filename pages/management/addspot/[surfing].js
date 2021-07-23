@@ -165,6 +165,7 @@ export default function AddSpot(props) {
             <div css={inputA}>
               <label>
                 <input
+                  data-cy="add1"
                   value={city}
                   placeholder="City"
                   css={inputStyle}
@@ -177,6 +178,7 @@ export default function AddSpot(props) {
             <div css={inputB}>
               <label>
                 <input
+                  data-cy="add2"
                   value={address}
                   placeholder="Address"
                   css={inputStyle}
@@ -224,6 +226,7 @@ export default function AddSpot(props) {
             <div css={inputD}>
               <label>
                 <textarea
+                  data-cy="add4"
                   value={spotDescription}
                   placeholder="Add description"
                   css={inputStyleD}
@@ -233,7 +236,7 @@ export default function AddSpot(props) {
                 />
               </label>
             </div>
-            <button css={buttonStyle}>Add</button>
+            <button data-cy="add-spot" css={buttonStyle}>Add</button>
           </div>
         </form>
       ) : (

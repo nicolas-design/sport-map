@@ -91,7 +91,13 @@ export default function Header(props) {
         <div css={imgSpace}>
           <Link href={`/created/${props.username}`}>
             <a>
-              <Image src="/plus.svg" alt="menu" height={25} width={25} />
+              <Image
+                data-cy="plus-link"
+                src="/plus.svg"
+                alt="menu"
+                height={25}
+                width={25}
+              />
             </a>
           </Link>
         </div>

@@ -1063,9 +1063,9 @@
   integrity sha512-se3yX7UHv5Bscf8f1ERKvQOD6sTyycH3hdaoozvaLxgUiY5lIGEeH37AD0G0Qi9kPqihPn0HOfd2yaIEN9VwEg==
 
 "@types/node@^14.14.31":
-  version "14.17.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.4.tgz#218712242446fc868d0e007af29a4408c7765bc0"
-  integrity sha512-8kQ3+wKGRNN0ghtEn7EGps/B8CzuBz1nXZEIGGLP2GnwbqYn4dbTs7k+VKLTq1HvZLRCIDtN3Snx1Ege8B7L5A==
+  version "14.17.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.17.5.tgz#b59daf6a7ffa461b5648456ca59050ba8e40ed54"
+  integrity sha512-bjqH2cX/O33jXT/UmReo2pM7DIJREPMnarixbQ57DOOzzFaI6D2+IcwaJQaJpv0M1E9TIhPCYVxrkcityLjlqA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -1109,9 +1109,9 @@
   integrity sha512-EaCxbanVeyxDRTQBkdLb3Bvl/HK7PBK6UJjsSixB0iHKoWxE5uu2Q/DgtpOhPIojN0Zl1whvOd7PoHs2P0s5eA==
 
 "@types/sinonjs__fake-timers@^6.0.2":
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-6.0.2.tgz#3a84cf5ec3249439015e14049bd3161419bf9eae"
-  integrity sha512-dIPoZ3g5gcx9zZEszaxLSVTvMReD3xxyyDnQUjA6IYDG9Ba2AV0otMPs+77sG9ojB4Qr2N2Vk5RnKeuA0X/0bg==
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-6.0.3.tgz#79df6f358ae8f79e628fe35a63608a0ea8e7cf08"
+  integrity sha512-E1dU4fzC9wN2QK2Cr1MLCfyHM8BoNnRFvuf45LYMPNDA+WqbNzC45S4UzPxvp1fFJ1rvSGU0bPvdd35VLmXG8g==
 
 "@types/sizzle@^2.3.2":
   version "2.3.3"
@@ -1136,9 +1136,9 @@
     "@types/yargs-parser" "*"
 
 "@types/yauzl@^2.9.1":
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/@types/yauzl/-/yauzl-2.9.1.tgz#d10f69f9f522eef3cf98e30afb684a1e1ec923af"
-  integrity sha512-A1b8SU4D10uoPjwb0lnHmmu8wZhR9d+9o2PKBQT2jU5YPTKsxac6M2qGAdY7VcL+dHHhARVUDmeg0rOrcd9EjA==
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@types/yauzl/-/yauzl-2.9.2.tgz#c48e5d56aff1444409e39fa164b0b4d4552a7b7a"
+  integrity sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==
   dependencies:
     "@types/node" "*"
 
@@ -2287,10 +2287,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.0.8.tgz#d2266a792729fb227cd216fb572f43728e1ad340"
   integrity sha512-jXKhWqXPmlUeoQnF/EhTtTl4C9SnrxSH/jZUih3jmO6lBKr99rP3/+FmrMj4EFpOXzMtXHAZkd3x0E6h6Fgflw==
 
-cypress@^7.5.0:
-  version "7.6.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-7.6.0.tgz#80fe7496cd4165a0fa06e25fc11413dda4544463"
-  integrity sha512-tTwQExY28CKt6cY85/2V1uLExcMfpBEBWXt/EcE2ht/Onl9k4lxUS7ul1UnUO5MrYwMIHMdGVh13DxdzXj4Z5w==
+cypress@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-8.0.0.tgz#bd68f4cff9ffb0c1176e9dd87d020cbdd0001ab8"
+  integrity sha512-Hhbc7FtbeCSg5Ui2zxXQLynk7IYGIygG8NqTauS4EtCWyp2k6s4g8P4KUZXwRbhuryN/+/dCd1kPtFbhBx8MuQ==
   dependencies:
     "@cypress/request" "^2.88.5"
     "@cypress/xvfb" "^1.2.4"
@@ -2366,9 +2366,9 @@ date-fns@^2.22.1:
   integrity sha512-yUFPQjrxEmIsMqlHhAhmxkuH769baF21Kk+nZwZGyrMoyLA+LugaQtC0+Tqf9CBUUULWwUJt6Q5ySI3LJDDCGg==
 
 dayjs@^1.10.4:
-  version "1.10.5"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.5.tgz#5600df4548fc2453b3f163ebb2abbe965ccfb986"
-  integrity sha512-BUFis41ikLz+65iH6LHQCDm4YPMj5r1YFLdupPIyM4SGcXMmtiLQ7U37i+hGS8urIuqe7I/ou3IS1jVc4nbN4g==
+  version "1.10.6"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.6.tgz#288b2aa82f2d8418a6c9d4df5898c0737ad02a63"
+  integrity sha512-AztC/IOW4L1Q41A86phW5Thhcrco3xuAA+YX/BLpLWWjRcTj5TOt/QImBLmCKlrF7u7k47arTnOyL6GnbG8Hvw==
 
 debug@2, debug@^2.6.9:
   version "2.6.9"

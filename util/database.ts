@@ -245,6 +245,23 @@ export async function updateUserById(
   return users.map((user) => camelcaseKeys(user))[0];
 }
 
+export async function deleteUserByUsername(username?: string) {
+  if (!username) return undefined;
+
+  const users = await sql`
+    DELETE FROM
+      users
+    WHERE
+      username = ${username}
+    RETURNING
+      id,
+      first_name,
+      last_name,
+      username
+  `;
+  return users.map((user) => camelcaseKeys(user))[0];
+}
+
 export async function deleteUserById(id?: number) {
   if (!id) return undefined;
 
@@ -389,6 +406,23 @@ export async function updateInfoById(
       sport_type,
       spot_description,
       user_rating
+  `;
+  return mapinfo.map((info) => camelcaseKeys(info))[0];
+}
+
+export async function deleteInfoByUsername(username?: string) {
+  if (!username) return undefined;
+
+  const mapinfo = await sql`
+    DELETE FROM
+      mapinfo
+    WHERE
+      username_owner = ${username}
+    RETURNING
+      id,
+      address_int,
+      spot_description,
+      sport_type
   `;
   return mapinfo.map((info) => camelcaseKeys(info))[0];
 }
