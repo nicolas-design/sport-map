@@ -32,8 +32,6 @@ const loginStyle = css`
   text-decoration: none;
 `;
 
-
-
 const imgStyle = css`
   position: absolute;
   color: #86c232;
@@ -94,7 +92,7 @@ export default function Header(props) {
           </Link>
         </div>
         <div css={imgSpace}>
-          <Link href={`/${props.username}`}>
+          <Link href={`/favorites/${props.username}`}>
             <a>
               <Image src="/heart.svg" alt="menu" height={25} width={25} />
             </a>
@@ -108,8 +106,8 @@ export default function Header(props) {
           </Link>
         </div>
       </div>
-      <div css={totalStyle}/>
-      <div css={homeStyle}/>
+      <div css={totalStyle} />
+      <div css={homeStyle} />
     </header>
   );
 }
