@@ -84,7 +84,7 @@ export default function Favorites(props) {
         <div css={header}>
           <div css={headStyle}>Favorites</div>
         </div>
-        {places.map((place) => {
+        {places?.map((place) => {
           return (
             <div css={item} key={place.id}>
               <h2>{place.city}</h2>
@@ -97,7 +97,7 @@ export default function Favorites(props) {
                   console.log('user', user);
                   let favorites = user;
 
-                  if (favorites.includes(place.id)) {
+                  if (favorites?.includes(place.id)) {
                     favorites = favorites.filter((numb) => {
                       return numb !== place.id;
                     });
