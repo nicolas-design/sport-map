@@ -367,6 +367,18 @@ export default function Favorites(props) {
 }
 
 export async function getServerSideProps(context) {
+  if (
+    context.req.headers.host &&
+    context.req.headers['x-forwarded-proto'] &&
+    context.req.headers['x-forwarded-proto'] !== 'https'
+  ) {
+    return {
+      redirect: {
+        destination: `https://${context.req.headers.host}/register`,
+        permanent: true,
+      },
+    };
+  }
   const { getInfoByUsername } = await import('../../util/database');
   const spot = await getInfoByUsername(context.query.username);
   console.log(spot);
