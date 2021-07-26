@@ -17,6 +17,9 @@ const deletStyle = css`
   color: white;
   border: none;
   font-weight: 200;
+  &:hover {
+    background-color: #679626;
+  }
 `;
 
 const backgroundPage = css`
@@ -27,7 +30,7 @@ const backgroundPage = css`
   background-color: #222629;
   display: flex;
   justify-content: space-between;
-  padding-top: 60px;
+  padding-top: 10px;
   flex-wrap: wrap;
   padding-left: 10px;
   padding-right: 10px;
@@ -85,6 +88,9 @@ const buttonStyle = css`
   color: white;
   border: none;
   font-weight: 200;
+  &:hover {
+    background-color: #679626;
+  }
 `;
 
 const buttonWrapper = css`
@@ -97,7 +103,7 @@ const header = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 30px;
+  margin: 20px;
 `;
 
 const headStyle = css`

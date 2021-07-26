@@ -61,6 +61,9 @@ const buttonStyle = css`
   border: none;
   font-weight: 200;
   font-size: 16px;
+  &:hover {
+    background-color: #679626;
+  }
 `;
 
 type Props = {

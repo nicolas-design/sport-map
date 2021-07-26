@@ -19,6 +19,11 @@ const buttonStyle = css`
   background-color: #222629;
   color: #86c232;
   font-size: 40px;
+  cursor: pointer;
+  &:hover {
+    background-color: #41484d;
+    color: #a4ed3e;
+  }
 `;
 
 const dropdownStyle = css`
@@ -27,6 +32,8 @@ const dropdownStyle = css`
   right: 1.5em;
   z-index: 1000;
   height: 32px;
+  cursor: pointer;
+
 `;
 
 function MapPage(props) {

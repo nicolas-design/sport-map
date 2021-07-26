@@ -53,6 +53,7 @@ const dropdownStyle = css`
   width: 100%;
   height: 50px;
   font-size: 16px;
+  cursor: pointer;
 `;
 
 const inputStyle = css`
@@ -82,6 +83,10 @@ const buttonStyle = css`
   grid-row-start: 6;
   align-self: center;
   justify-self: end;
+  cursor: pointer;
+  &:hover {
+    background-color: #679626;
+  }
 `;
 
 const guestBg = css`

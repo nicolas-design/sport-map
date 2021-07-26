@@ -44,6 +44,10 @@ const buttonStyle = css`
   background-color: #222629;
   color: red;
   font-size: 16px;
+  &:hover {
+    background-color: red;
+    color: #222629;
+  }
 `;
 
 const header = css`

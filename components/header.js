@@ -22,6 +22,7 @@ const aurumStyle = css`
 
   display: flex;
   justify-content: center;
+
 `;
 
 const loginStyle = css`
@@ -30,6 +31,7 @@ const loginStyle = css`
   color: #86c232;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   text-decoration: none;
+  cursor: pointer;
 `;
 
 const imgStyle = css`
