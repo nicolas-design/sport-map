@@ -146,11 +146,16 @@ export async function getServerSideProps(context) {
       },
     };
   }
-  const response = await fetch(
+  /* const response = await fetch(
     `${process.env.API_BASE_URL}/user/${context.query.favorites}`,
   );
   let { user } = await response.json();
   console.log('API decoded JSON from response', user);
+  user = JSON.parse(user.favorites); */
+
+  const { getFavoritesByUsername } = await import('../../util/database');
+
+  let user = await getFavoritesByUsername(context.query.favorites);
   user = JSON.parse(user.favorites);
 
   const { getInfoById } = await import('../../util/database');
