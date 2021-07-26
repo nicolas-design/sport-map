@@ -7,7 +7,7 @@ import {
   useLoadScript,
 } from '@react-google-maps/api';
 import { formatRelative } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import mapStyle from '../mapstyles';
 
 const testStyle = {
