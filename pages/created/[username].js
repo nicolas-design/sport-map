@@ -3,7 +3,7 @@
 import { css } from '@emotion/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Header from '../../../components/header';
+import Header from '../../components/header';
 
 const deletStyle = css`
   position: fixed;
@@ -367,7 +367,7 @@ export default function Favorites(props) {
 }
 
 export async function getServerSideProps(context) {
-  const { getInfoByUsername } = await import('../../../util/database');
+  const { getInfoByUsername } = await import('../../util/database');
   const spot = await getInfoByUsername(context.query.username);
   console.log(spot);
 

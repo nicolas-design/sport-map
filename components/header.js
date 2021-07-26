@@ -79,7 +79,7 @@ export default function Header(props) {
       </h3>
       <div css={imgStyle}>
         <div css={imgSpace}>
-          <Link href={`/api/created/${props.username}`}>
+          <Link href={`/created/${props.username}`}>
             <a>
               <Image
                 data-cy="plus-link"
@@ -92,7 +92,7 @@ export default function Header(props) {
           </Link>
         </div>
         <div css={imgSpace}>
-          <Link href={`/api/favorites/${props.username}`}>
+          <Link href={`/favorites/${props.username}`}>
             <a>
               <Image src="/heart.svg" alt="menu" height={25} width={25} />
             </a>

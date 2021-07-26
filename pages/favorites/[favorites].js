@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import Header from '../../../components/header';
+import Header from '../../components/header';
 
 const backgroundPage = css`
   min-height: 100vh;
@@ -141,7 +141,7 @@ export async function getServerSideProps(context) {
   console.log('API decoded JSON from response', user);
   user = JSON.parse(user.favorites);
 
-  const { getInfoById } = await import('../../../util/database');
+  const { getInfoById } = await import('../../util/database');
   let resLoop = [];
   for (let i = 0; i < user.length; i++) {
     resLoop.push(await getInfoById(user[i]));
