@@ -83,7 +83,7 @@ export default function Home(props) {
           <div css={wrapper}>
             <h1 css={h1Style}>Share the stoke!</h1>
             <p css={pStyle}>
-              It does’nt matter if you just want to find the perfect spot, shred
+              It does not matter if you just want to find the perfect spot, shred
               with friends or look for the next competition. You are at the
               right spot.
             </p>
