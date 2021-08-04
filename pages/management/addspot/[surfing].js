@@ -23,23 +23,45 @@ const backgroundPage = css`
   padding-bottom: 60px;
   padding-left: 40px;
   padding-right: 40px;
+  @media screen and (max-width: 700px) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+
+
+  }
 `;
 
 const inputA = css`
   grid-column-start: 1;
   grid-row-start: 3;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin-top:20px;
+  }
 `;
 
 const inputB = css`
   grid-column-start: 1;
   grid-row-start: 4;
   align-self: center;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin-top: 20px;
+
+  }
 `;
 
 const inputC = css`
   grid-row-start: 5;
   grid-column-start: 1;
   align-self: end;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin-top: 20px;
+
+  }
 `;
 
 const inputD = css`
@@ -47,6 +69,12 @@ const inputD = css`
   grid-column-end: 4;
   grid-row-start: 3;
   grid-row-end: 6;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+    margin-top: 20px;
+    height: 150px;
+
+  }
 `;
 
 const dropdownStyle = css`
@@ -86,6 +114,10 @@ const buttonStyle = css`
   cursor: pointer;
   &:hover {
     background-color: #679626;
+  }
+  @media screen and (max-width: 900px) {
+
+
   }
 `;
 
