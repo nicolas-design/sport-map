@@ -49,6 +49,10 @@ const pStyle = css`
 
 const wrapper = css`
   width: 35%;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+
+  }
 `;
 
 const buttonStyle = css`
@@ -72,6 +76,10 @@ const imageContainer = css`
   height: 100vh;
   width: 60%;
   top: 0;
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    opacity: 0.2;
+  }
 `;
 
 export default function Home(props) {

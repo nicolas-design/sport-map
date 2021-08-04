@@ -36,7 +36,7 @@ const buttonStyle = css`
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 1000;
+  z-index: 10;
   border-radius: 50%;
   width: 24px;
   height: 24px;

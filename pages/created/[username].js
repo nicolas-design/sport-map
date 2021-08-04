@@ -10,7 +10,7 @@ const deletStyle = css`
   bottom: 20px;
   right: 30px;
   border-radius: 8px;
-  margin: 10px;
+  z-index: 1000;
   height: 28px;
 
   background-color: #86c232;
@@ -23,17 +23,17 @@ const deletStyle = css`
 `;
 
 const backgroundPage = css`
-  min-height: 100vh;
-  width: 100%;
-  z-index: -1;
-  margin: 0px;
-  background-color: #222629;
-  display: flex;
-  justify-content: space-between;
-  padding-top: 10px;
-  flex-wrap: wrap;
-  padding-left: 10px;
-  padding-right: 10px;
+min-height: 100vh;
+width: 100%;
+z-index: -1;
+
+background-color: #222629;
+display: flex;
+justify-content: space-evenly;
+padding-top: 60px;
+flex-wrap: wrap;
+padding-left: 10px;
+padding-right: 10px;
 `;
 
 const wrapperMarker = css`
@@ -65,14 +65,14 @@ const inputStyle = css`
 `;
 
 const item = css`
-  background-color: #6b6e70;
-  color: white;
-  border-radius: 15px;
-  width: 300px;
-  height: 300px;
-  padding: 15px;
-  margin: 20px;
-  position: relative;
+background-color: #6b6e70;
+color: white;
+border-radius: 15px;
+width: 300px;
+height: 300px;
+padding: 15px;
+margin: 20px;
+position: relative;
 `;
 
 const divStyle = css`
@@ -103,7 +103,7 @@ const header = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 20px;
+
 `;
 
 const headStyle = css`
@@ -143,6 +143,7 @@ export default function Favorites(props) {
       <Header username={props.username} />
 
       {props.username === router.query.username ? (
+        <div>
         <div css={backgroundPage}>
           <div css={header}>
             <div css={headStyle}>Added Spots</div>
@@ -346,6 +347,7 @@ export default function Favorites(props) {
               </div>
             );
           })}
+          </div>
           <div>
             <button
               data-cy="delete-button"
